@@ -9,13 +9,16 @@ import Form from './Form';
 
 function Home() {
   const {theme, setTheme } = useTheme();
+  const [loading, setLoading]= useState(false)
   // const {theme, setTheme} = useState("light");
   console.log(theme)
   const [searchResult, setSearchResult] = useState([]);
 
   const handleSearch = async (searchText) => {
+    setLoading(true)
     const result = await searchAPI(searchText);
     setSearchResult(result);
+    setLoading(false)
   };
 
   const cards = searchResult.map((data, i) => {
@@ -50,7 +53,9 @@ function Home() {
       <Form handleSearch={handleSearch} />
 
       {/* CARDS */}
+
       <div className="w-2/5 flex flex-col items-center">
+        {loading&&<h2 className={`text-2xs m-10 text-neutral-800 dark:text-neutral-300 font-star-jedi dark:font-starjout`} >Loading</h2>}
         {cards}
       </div>
     </div>
